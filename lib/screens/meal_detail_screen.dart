@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_complete_guide/providers/mealProvider.dart';
 import 'package:provider/provider.dart';
@@ -7,15 +9,12 @@ import '../dummy_data.dart';
 class MealDetailScreen extends StatelessWidget {
   static const routeName = '/meal-detail';
 
-
-
-
   Widget buildSectionTitle(BuildContext context, String text) {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 10),
       child: Text(
         text,
-        style: Theme.of(context).textTheme.headline1,
+        style: Theme.of(context).textTheme.headline6,
       ),
     );
   }
@@ -35,9 +34,21 @@ class MealDetailScreen extends StatelessWidget {
     );
   }
 
+  bool useWhiteForeground(Color backgroundColor, {double bias = 0.0}) {
+    // Old:
+    // return 1.05 / (color.computeLuminance() + 0.05) > 4.5;
+
+    // New:
+    int v = sqrt(pow(backgroundColor.red, 2) * 0.299 +
+        pow(backgroundColor.green, 2) * 0.587 +
+        pow(backgroundColor.blue, 2) * 0.114)
+        .round();
+    return v < 130 + bias ? true : false;
+  }
+
   @override
   Widget build(BuildContext context) {
-
+    var accentColor = Theme.of(context).accentColor;
     final mealId = ModalRoute.of(context).settings.arguments as String;
     final selectedMeal = DUMMY_MEALS.firstWhere((meal) => meal.id == mealId);
     return Scaffold(
@@ -59,14 +70,22 @@ class MealDetailScreen extends StatelessWidget {
             buildContainer(
               ListView.builder(
                 itemBuilder: (ctx, index) => Card(
-                      color: Theme.of(context).accentColor,
-                      child: Padding(
-                          padding: EdgeInsets.symmetric(
-                            vertical: 5,
-                            horizontal: 10,
-                          ),
-                          child: Text(selectedMeal.ingredients[index])),
-                    ),
+                  color: accentColor,
+                  child: Padding(
+                      padding: EdgeInsets.symmetric(
+                        vertical: 5,
+                        horizontal: 10,
+                      ),
+                      child: Text(
+                        selectedMeal.ingredients[index],
+                        style: TextStyle(
+                          fontSize: 15,
+                          color: useWhiteForeground(accentColor)
+                              ? Colors.white
+                              : Colors.black,
+                        ),
+                      )),
+                ),
                 itemCount: selectedMeal.ingredients.length,
               ),
             ),
@@ -74,18 +93,19 @@ class MealDetailScreen extends StatelessWidget {
             buildContainer(
               ListView.builder(
                 itemBuilder: (ctx, index) => Column(
-                      children: [
-                        ListTile(
-                          leading: CircleAvatar(
-                            child: Text('# ${(index + 1)}'),
-                          ),
-                          title: Text(
-                            selectedMeal.steps[index],
-                          ),
-                        ),
-                        Divider()
-                      ],
+                  children: [
+                    ListTile(
+                      leading: CircleAvatar(
+                        child: Text('# ${(index + 1)}'),
+                      ),
+                      title: Text(
+                        selectedMeal.steps[index],
+                        style: TextStyle(color: Colors.black,fontSize: 16),
+                      ),
                     ),
+                    Divider()
+                  ],
+                ),
                 itemCount: selectedMeal.steps.length,
               ),
             ),
@@ -94,9 +114,13 @@ class MealDetailScreen extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(
-          Provider.of<MealProvider>(context, listen: true).isMealFavorite(mealId) ? Icons.star : Icons.star_border,
+          Provider.of<MealProvider>(context, listen: true)
+                  .isMealFavorite(mealId)
+              ? Icons.star
+              : Icons.star_border,
         ),
-        onPressed: () =>Provider.of<MealProvider>(context, listen: false).toggleFavorite(mealId),
+        onPressed: () => Provider.of<MealProvider>(context, listen: false)
+            .toggleFavorite(mealId),
       ),
     );
   }

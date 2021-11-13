@@ -22,20 +22,51 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'DeliMeals',
+      themeMode: ThemeMode.dark,
+      darkTheme: ThemeData(
+        primarySwatch: Colors.pink,
+        //colorScheme.secondary:,
+        accentColor: Colors.amber,
+        canvasColor: Color.fromRGBO(31, 30, 30, 1.0),
+        fontFamily: 'Raleway',
+        buttonColor: Colors.white,
+        //cardColor: Color.fromRGBO(20, 51, 51, 1.0),
+        shadowColor: Colors.white60,
+        textTheme: ThemeData.light().textTheme.copyWith(
+            bodyText1: TextStyle(
+              color:Colors.white60,
+              //Color.fromRGBO(20, 51, 51, 1),
+            ),
+            bodyText2: TextStyle(
+              color: Colors.white60,
+            ),
+            headline6: TextStyle(
+              color: Colors.white60,
+              fontSize: 20,
+              fontFamily: 'RobotoCondensed',
+              fontWeight: FontWeight.bold,
+            )),
+      ),
       theme: ThemeData(
         primarySwatch: Colors.pink,
         //colorScheme.secondary:,
         accentColor: Colors.amber,
-        canvasColor: Color.fromRGBO(255, 254, 229, 1),
+        canvasColor: Color.fromRGBO(231, 198, 198, 1.0),
         fontFamily: 'Raleway',
-        textTheme: ThemeData.light().textTheme.copyWith(
+        buttonColor: Colors.black54,
+        cardColor: Colors.white,
+        //cardColor: Color.fromRGBO(20, 51, 51, 1.0),
+        shadowColor: Colors.black45,
+        textTheme: ThemeData.dark().textTheme.copyWith(
             bodyText1: TextStyle(
-              color: Color.fromRGBO(20, 51, 51, 1),
+              color:Colors.black,
+              //Color.fromRGBO(20, 51, 51, 1),
             ),
             bodyText2: TextStyle(
-              color: Color.fromRGBO(20, 51, 51, 1),
+              color: Colors.black,
             ),
-            headline1: TextStyle(
+            headline6: TextStyle(
+              color: Colors.black,
               fontSize: 20,
               fontFamily: 'RobotoCondensed',
               fontWeight: FontWeight.bold,

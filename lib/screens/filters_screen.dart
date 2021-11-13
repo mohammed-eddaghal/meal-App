@@ -30,6 +30,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
   ) {
     return SwitchListTile(
       title: Text(title),
+      inactiveTrackColor: Colors.black,
       value: currentValue,
       subtitle: Text(
         description,
@@ -53,7 +54,8 @@ class _FiltersScreenState extends State<FiltersScreen> {
             padding: EdgeInsets.all(20),
             child: Text(
               'Adjust your meal selection.',
-              style: Theme.of(context).textTheme.headline1,
+              style: Theme.of(context).textTheme.headline6,
+
             ),
           ),
           Expanded(
