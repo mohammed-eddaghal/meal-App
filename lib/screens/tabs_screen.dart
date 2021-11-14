@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_complete_guide/providers/ThemeProvider.dart';
 import 'package:flutter_complete_guide/providers/mealProvider.dart';
 import 'package:provider/provider.dart';
 
@@ -22,6 +23,9 @@ class _TabsScreenState extends State<TabsScreen> {
   @override
   void initState() {
     Provider.of<MealProvider>(context, listen: false).setData();
+    Provider.of<ThemeProvider>(context, listen: false).getThemeMode();
+    Provider.of<ThemeProvider>(context, listen: false).getThemeColor();
+
     _pages = [
       {
         'page': CategoriesScreen(),

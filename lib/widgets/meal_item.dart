@@ -70,7 +70,7 @@ class MealItem extends StatelessWidget {
     return InkWell(
       onTap: () => selectMeal(context),
       child: Card(
-        color: Color.fromRGBO(20, 51, 51, 1),
+        //color: Color.fromRGBO(20, 51, 51, 1),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15),
         ),
@@ -97,7 +97,7 @@ class MealItem extends StatelessWidget {
                   right: 10,
                   child: Container(
                     width: 300,
-                    //color: Colors.black54,
+                    color: Colors.black54,
                     padding: EdgeInsets.symmetric(
                       vertical: 5,
                       horizontal: 20,

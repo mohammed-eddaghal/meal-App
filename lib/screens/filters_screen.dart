@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_complete_guide/providers/ThemeProvider.dart';
 import 'package:flutter_complete_guide/providers/mealProvider.dart';
 import 'package:provider/provider.dart';
 
@@ -6,9 +7,6 @@ import '../widgets/main_drawer.dart';
 
 class FiltersScreen extends StatefulWidget {
   static const routeName = '/filters';
-
-
-
 
   @override
   _FiltersScreenState createState() => _FiltersScreenState();
@@ -20,28 +18,29 @@ class _FiltersScreenState extends State<FiltersScreen> {
   bool _vegan = false;
   bool _lactoseFree = false;
 
-
-
   Widget _buildSwitchListTile(
     String title,
+    BuildContext context,
     String description,
     bool currentValue,
     Function updateValue,
   ) {
     return SwitchListTile(
-      title: Text(title),
-      inactiveTrackColor: Colors.black,
+      title: Text(title, style: Theme.of(context).textTheme.bodyText1),
+      inactiveTrackColor:
+          Provider.of<ThemeProvider>(context).tm == ThemeMode.light
+              ? null
+              : Colors.black,
       value: currentValue,
-      subtitle: Text(
-        description,
-      ),
+      subtitle: Text(description, style: Theme.of(context).textTheme.bodyText2),
       onChanged: updateValue,
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    final Map<String, bool> currentFilters= Provider.of<MealProvider>(context, listen: false).filters;
+    final Map<String, bool> currentFilters =
+        Provider.of<MealProvider>(context, listen: false).filters;
 
     return Scaffold(
       appBar: AppBar(
@@ -55,7 +54,6 @@ class _FiltersScreenState extends State<FiltersScreen> {
             child: Text(
               'Adjust your meal selection.',
               style: Theme.of(context).textTheme.headline6,
-
             ),
           ),
           Expanded(
@@ -63,6 +61,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
               children: <Widget>[
                 _buildSwitchListTile(
                   'Gluten-free',
+                  context,
                   'Only include gluten-free meals.',
                   currentFilters['gluten'],
                   (newValue) {
@@ -71,11 +70,13 @@ class _FiltersScreenState extends State<FiltersScreen> {
                         currentFilters['gluten'] = newValue;
                       },
                     );
-                    Provider.of<MealProvider>(context, listen: false).setFilters();
+                    Provider.of<MealProvider>(context, listen: false)
+                        .setFilters();
                   },
                 ),
                 _buildSwitchListTile(
                   'Lactose-free',
+                  context,
                   'Only include lactose-free meals.',
                   currentFilters['lactose'],
                   (newValue) {
@@ -84,11 +85,13 @@ class _FiltersScreenState extends State<FiltersScreen> {
                         currentFilters['lactose'] = newValue;
                       },
                     );
-                    Provider.of<MealProvider>(context, listen: false).setFilters();
+                    Provider.of<MealProvider>(context, listen: false)
+                        .setFilters();
                   },
                 ),
                 _buildSwitchListTile(
                   'Vegetarian',
+                  context,
                   'Only include vegetarian meals.',
                   currentFilters['vegetarian'],
                   (newValue) {
@@ -97,11 +100,13 @@ class _FiltersScreenState extends State<FiltersScreen> {
                         currentFilters['vegetarian'] = newValue;
                       },
                     );
-                    Provider.of<MealProvider>(context, listen: false).setFilters();
+                    Provider.of<MealProvider>(context, listen: false)
+                        .setFilters();
                   },
                 ),
                 _buildSwitchListTile(
                   'Vegan',
+                  context,
                   'Only include vegan meals.',
                   currentFilters['vegan'],
                   (newValue) {
@@ -110,7 +115,8 @@ class _FiltersScreenState extends State<FiltersScreen> {
                         currentFilters['vegan'] = newValue;
                       },
                     );
-                    Provider.of<MealProvider>(context, listen: false).setFilters();
+                    Provider.of<MealProvider>(context, listen: false)
+                        .setFilters();
                   },
                 )
               ],

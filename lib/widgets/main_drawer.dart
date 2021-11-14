@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_complete_guide/screens/ThemeScreen.dart';
 
 import '../screens/filters_screen.dart';
 
@@ -50,6 +51,9 @@ class MainDrawer extends StatelessWidget {
           },context),
           buildListTile('Filters', Icons.settings, () {
             Navigator.of(context).pushReplacementNamed(FiltersScreen.routeName);
+          }, context),
+          buildListTile('Themes', Icons.color_lens, () {
+            Navigator.of(context).pushReplacementNamed(ThemeScreen.routeName);
           }, context),
         ],
       ),
