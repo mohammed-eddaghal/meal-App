@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_complete_guide/providers/ThemeProvider.dart';
 import 'package:flutter_complete_guide/providers/language_provider.dart';
 import 'package:flutter_complete_guide/screens/ThemeScreen.dart';
+import 'package:flutter_complete_guide/screens/tabs_screen.dart';
 import 'package:provider/provider.dart';
 
 import '../screens/filters_screen.dart';
@@ -61,7 +62,7 @@ class MainDrawer extends StatelessWidget {
               height: 20,
             ),
             buildListTile('Meals', Icons.restaurant, () {
-              Navigator.of(context).pushReplacementNamed('/');
+              Navigator.of(context).pushReplacementNamed(TabsScreen.routeName);
             }, context),
             buildListTile('Filters', Icons.settings, () {
               Navigator.of(context).pushReplacementNamed(FiltersScreen.routeName);

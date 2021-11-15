@@ -2,13 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
 import 'package:flutter_complete_guide/providers/ThemeProvider.dart';
-import 'package:flutter_complete_guide/providers/mealProvider.dart';
 import 'package:provider/provider.dart';
 
 import '../widgets/main_drawer.dart';
 
 class ThemeScreen extends StatelessWidget {
   static const routeName = '/theme';
+
+  final bool fromOnBoarding;
+
+  const ThemeScreen({this.fromOnBoarding = false});
 
   Widget buildRadioListTile(
     ThemeMode themeMode,
@@ -35,10 +38,15 @@ class ThemeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Your Theme'),
-      ),
-      drawer: MainDrawer(),
+      appBar: fromOnBoarding
+          ? AppBar(
+              backgroundColor: Theme.of(context).canvasColor,
+              elevation: 0,
+            )
+          : AppBar(
+              title: Text('Your Theme'),
+            ),
+      drawer: fromOnBoarding ? null : MainDrawer(),
       body: Column(
         children: <Widget>[
           Container(
@@ -94,8 +102,7 @@ class ThemeScreen extends StatelessWidget {
               content: SingleChildScrollView(
                 child: ColorPicker(
                   pickerColor: s == "primary"
-                      ? Provider.of<ThemeProvider>(ctx, listen: true)
-                          .primColor
+                      ? Provider.of<ThemeProvider>(ctx, listen: true).primColor
                       : Provider.of<ThemeProvider>(ctx, listen: true)
                           .accentColor,
                   onColorChanged: (newColor) =>

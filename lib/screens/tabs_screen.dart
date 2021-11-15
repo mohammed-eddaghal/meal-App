@@ -10,7 +10,7 @@ import './categories_screen.dart';
 import '../models/meal.dart';
 
 class TabsScreen extends StatefulWidget {
-
+static String routeName="/tabsScreen";
 
 
   @override

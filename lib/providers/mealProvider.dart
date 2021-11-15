@@ -66,6 +66,15 @@ class MealProvider with ChangeNotifier {
         DUMMY_MEALS.firstWhere((meal) => meal.id == mealId),
       );
     }
+
+    List<Meal> fm=[];
+    favoriteMeals.forEach((favMeal) {
+      availableMeals.forEach((avMeal) {
+        if(favMeal.id==avMeal.id)fm.add(favMeal);
+      });
+    });
+    favoriteMeals=fm;
+    
     notifyListeners();
   }
 

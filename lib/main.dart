@@ -3,7 +3,9 @@ import 'package:flutter_complete_guide/providers/ThemeProvider.dart';
 import 'package:flutter_complete_guide/providers/language_provider.dart';
 import 'package:flutter_complete_guide/providers/mealProvider.dart';
 import 'package:flutter_complete_guide/screens/ThemeScreen.dart';
+import 'package:flutter_complete_guide/screens/on_boarding_screen.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import './screens/tabs_screen.dart';
 import './screens/meal_detail_screen.dart';
@@ -11,7 +13,11 @@ import './screens/category_meals_screen.dart';
 import './screens/filters_screen.dart';
 import './screens/categories_screen.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  Widget thisScreen= prefs.getBool("watched")??false?TabsScreen():OnBoardingScreen();
+
   runApp(
     MultiProvider(providers: [
       ChangeNotifierProvider<MealProvider>(
@@ -24,11 +30,13 @@ void main() {
         create: (context) => LanguageProvider(),
       ),
     ],
-      child: MyApp(),)
+      child: MyApp(thisScreen),)
   );
 }
 
 class MyApp extends StatelessWidget {
+  final Widget thisScreen;
+  MyApp(this.thisScreen);
   @override
   Widget build(BuildContext context) {
     var primaryColor=Provider.of<ThemeProvider>(context).primColor;
@@ -86,7 +94,7 @@ class MyApp extends StatelessWidget {
                 fontSize: 16
             ),
             headline6: TextStyle(
-              color: Colors.black,
+              color: Colors.black54,
               fontSize: 20,
               fontFamily: 'RobotoCondensed',
               fontWeight: FontWeight.bold,
@@ -96,7 +104,8 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       // default is '/'
       routes: {
-        '/': (ctx) => TabsScreen(),
+        '/': (ctx) => thisScreen,
+        TabsScreen.routeName: (ctx) => TabsScreen(),
         CategoryMealsScreen.routeName: (ctx) => CategoryMealsScreen(),
         MealDetailScreen.routeName: (ctx) => MealDetailScreen(),
         FiltersScreen.routeName: (ctx) => FiltersScreen(),

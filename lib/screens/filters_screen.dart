@@ -7,6 +7,9 @@ import '../widgets/main_drawer.dart';
 
 class FiltersScreen extends StatefulWidget {
   static const routeName = '/filters';
+  final bool fromOnBoarding;
+
+  const FiltersScreen({this.fromOnBoarding= false});
 
   @override
   _FiltersScreenState createState() => _FiltersScreenState();
