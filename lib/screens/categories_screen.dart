@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_complete_guide/providers/mealProvider.dart';
+import 'package:provider/provider.dart';
 
-import '../dummy_data.dart';
 import '../widgets/category_item.dart';
 
 class CategoriesScreen extends StatelessWidget {
@@ -8,7 +9,7 @@ class CategoriesScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return GridView(
       padding: const EdgeInsets.all(25),
-      children: DUMMY_CATEGORIES
+      children: Provider.of<MealProvider>(context).availableCategories
           .map(
             (catData) => CategoryItem(
                   catData.id,

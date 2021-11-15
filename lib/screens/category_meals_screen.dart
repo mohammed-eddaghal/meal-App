@@ -51,11 +51,20 @@ class _CategoryMealsScreenState extends State<CategoryMealsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    bool isLandscap= MediaQuery.of(context).orientation==Orientation.landscape;
+    var dw= MediaQuery.of(context).size.width;
+    
     return Scaffold(
       appBar: AppBar(
         title: Text(categoryTitle),
       ),
-      body: ListView.builder(
+      body: GridView.builder(
+        gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+          maxCrossAxisExtent: dw<=400?400:500,
+          childAspectRatio: isLandscap? dw/(dw*0.71):dw/(dw*0.715),
+          crossAxisSpacing: 0,
+          mainAxisSpacing: 0,
+        ),
         itemBuilder: (ctx, index) {
           return MealItem(
             id: displayedMeals[index].id,

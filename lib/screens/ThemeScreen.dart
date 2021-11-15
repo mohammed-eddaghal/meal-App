@@ -100,7 +100,7 @@ class ThemeScreen extends StatelessWidget {
                           .accentColor,
                   onColorChanged: (newColor) =>
                       Provider.of<ThemeProvider>(ctx, listen: false)
-                          .onChange(newColor, s == "primary" ? 11 : 2),
+                          .onChange(newColor, s == "primary" ? 1 : 2),
                   colorPickerWidth: 300,
                   pickerAreaHeightPercent: 0.7,
                   displayThumbColor: true,

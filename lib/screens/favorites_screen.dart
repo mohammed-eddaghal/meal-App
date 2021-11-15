@@ -9,13 +9,24 @@ class FavoritesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool isLandscap =
+        MediaQuery.of(context).orientation == Orientation.landscape;
+    var dw= MediaQuery.of(context).size.width;
+    //var lan= MediaQuery.of(context).size.height;
+
     final List<Meal> favoriteMeals= Provider.of<MealProvider>(context).favoriteMeals;
     if (favoriteMeals.isEmpty) {
       return Center(
         child: Text('You have no favorites yet - start adding some!'),
       );
     } else {
-      return ListView.builder(
+      return GridView.builder(
+        gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+          maxCrossAxisExtent: dw<=400?400:500,
+          childAspectRatio: isLandscap? dw/(dw*0.71):dw/(dw*0.715),
+          crossAxisSpacing: 0,
+          mainAxisSpacing: 0,
+        ),
         itemBuilder: (ctx, index) {
           return MealItem(
             id: favoriteMeals[index].id,

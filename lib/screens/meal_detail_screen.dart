@@ -40,14 +40,17 @@ class MealDetailScreen extends StatelessWidget {
 
     // New:
     int v = sqrt(pow(backgroundColor.red, 2) * 0.299 +
-        pow(backgroundColor.green, 2) * 0.587 +
-        pow(backgroundColor.blue, 2) * 0.114)
+            pow(backgroundColor.green, 2) * 0.587 +
+            pow(backgroundColor.blue, 2) * 0.114)
         .round();
     return v < 130 + bias ? true : false;
   }
 
   @override
   Widget build(BuildContext context) {
+    bool isLandscap =
+        MediaQuery.of(context).orientation == Orientation.landscape;
+
     var accentColor = Theme.of(context).accentColor;
     final mealId = ModalRoute.of(context).settings.arguments as String;
     final selectedMeal = DUMMY_MEALS.firstWhere((meal) => meal.id == mealId);
@@ -61,13 +64,69 @@ class MealDetailScreen extends StatelessWidget {
             Container(
               height: 300,
               width: double.infinity,
-              child: Image.network(
-                selectedMeal.imageUrl,
-                fit: BoxFit.cover,
+              child: Hero(
+                tag: mealId,
+                child: Image.network(
+                  selectedMeal.imageUrl,
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
-            buildSectionTitle(context, 'Ingredients'),
-            buildContainer(
+
+            if(isLandscap)Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+              Column(children: [
+                buildSectionTitle(context, 'Ingredients'),
+                buildContainer(
+                  ListView.builder(
+                    itemBuilder: (ctx, index) => Card(
+                      color: accentColor,
+                      child: Padding(
+                          padding: EdgeInsets.symmetric(
+                            vertical: 5,
+                            horizontal: 10,
+                          ),
+                          child: Text(
+                            selectedMeal.ingredients[index],
+                            style: TextStyle(
+                              fontSize: 15,
+                              color: useWhiteForeground(accentColor)
+                                  ? Colors.white
+                                  : Colors.black,
+                            ),
+                          )),
+                    ),
+                    itemCount: selectedMeal.ingredients.length,
+                  ),
+                ),
+              ],),
+              Column(children: [
+                buildSectionTitle(context, 'Steps'),
+                buildContainer(
+                  ListView.builder(
+                    itemBuilder: (ctx, index) => Column(
+                      children: [
+                        ListTile(
+                          leading: CircleAvatar(
+                            child: Text('# ${(index + 1)}'),
+                          ),
+                          title: Text(
+                            selectedMeal.steps[index],
+                            style: TextStyle(color: Colors.black, fontSize: 16),
+                          ),
+                        ),
+                        Divider()
+                      ],
+                    ),
+                    itemCount: selectedMeal.steps.length,
+                  ),
+                ),
+              ],),
+            ],),
+
+            if(!isLandscap)buildSectionTitle(context, 'Ingredients'),
+            if(!isLandscap)buildContainer(
               ListView.builder(
                 itemBuilder: (ctx, index) => Card(
                   color: accentColor,
@@ -89,8 +148,8 @@ class MealDetailScreen extends StatelessWidget {
                 itemCount: selectedMeal.ingredients.length,
               ),
             ),
-            buildSectionTitle(context, 'Steps'),
-            buildContainer(
+            if(!isLandscap)buildSectionTitle(context, 'Steps'),
+            if(!isLandscap)buildContainer(
               ListView.builder(
                 itemBuilder: (ctx, index) => Column(
                   children: [
@@ -100,7 +159,7 @@ class MealDetailScreen extends StatelessWidget {
                       ),
                       title: Text(
                         selectedMeal.steps[index],
-                        style: TextStyle(color: Colors.black,fontSize: 16),
+                        style: TextStyle(color: Colors.black, fontSize: 16),
                       ),
                     ),
                     Divider()

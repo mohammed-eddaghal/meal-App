@@ -33,8 +33,8 @@ class ThemeProvider with ChangeNotifier {
   }
 
   onChange(newColor, int i) async{
-    i==11? primColor=_setMaterialColor(newColor.value):
-        accentColor=_setMaterialColor(newColor.value);
+    if(i==1) primColor=_setMaterialColor(newColor.value);
+     else accentColor=_setMaterialColor(newColor.value);
     notifyListeners();
 
     SharedPreferences prefs=await SharedPreferences.getInstance();
@@ -53,7 +53,7 @@ class ThemeProvider with ChangeNotifier {
     print(prefs.getInt("accColor"));
     print(Colors.amber.value);
     print("//");
-    //primaryColor=_setMaterialColor(prefs.getInt("primColor")?? Colors.pink.value);//Colors.pink 0xFFE91E63
+    //primColor=_setMaterialColor(prefs.getInt("primColor")?? Colors.pink.value);//Colors.pink 0xFFE91E63
     accentColor=_setMaterialColor(prefs.getInt("accColor")?? Colors.amber.value);
 
     notifyListeners();
