@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_complete_guide/providers/ThemeProvider.dart';
+import 'package:flutter_complete_guide/providers/language_provider.dart';
 import 'package:flutter_complete_guide/providers/mealProvider.dart';
 import 'package:provider/provider.dart';
 
@@ -47,31 +48,35 @@ class _TabsScreenState extends State<TabsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(_pages[_selectedPageIndex]['title']),
-      ),
-      drawer: MainDrawer(),
-      body: _pages[_selectedPageIndex]['page'],
-      bottomNavigationBar: BottomNavigationBar(
-        onTap: _selectPage,
-        backgroundColor: Theme.of(context).primaryColor,
-        unselectedItemColor: Colors.white,
-        selectedItemColor: Theme.of(context).accentColor,
-        currentIndex: _selectedPageIndex,
-        // type: BottomNavigationBarType.fixed,
-        items: [
-          BottomNavigationBarItem(
-            backgroundColor: Theme.of(context).primaryColor,
-            icon: Icon(Icons.category),
-            title: Text('Categories'),
-          ),
-          BottomNavigationBarItem(
-            backgroundColor: Theme.of(context).primaryColor,
-            icon: Icon(Icons.star),
-            title: Text('Favorites'),
-          ),
-        ],
+    var lan = Provider.of<LanguageProvider>(context,listen: true);
+    return Directionality(
+      textDirection: lan.isEn? TextDirection.ltr:TextDirection.rtl,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(_pages[_selectedPageIndex]['title']),
+        ),
+        drawer: MainDrawer(),
+        body: _pages[_selectedPageIndex]['page'],
+        bottomNavigationBar: BottomNavigationBar(
+          onTap: _selectPage,
+          backgroundColor: Theme.of(context).primaryColor,
+          unselectedItemColor: Colors.white,
+          selectedItemColor: Theme.of(context).accentColor,
+          currentIndex: _selectedPageIndex,
+          // type: BottomNavigationBarType.fixed,
+          items: [
+            BottomNavigationBarItem(
+              backgroundColor: Theme.of(context).primaryColor,
+              icon: Icon(Icons.category),
+              title: Text('Categories'),
+            ),
+            BottomNavigationBarItem(
+              backgroundColor: Theme.of(context).primaryColor,
+              icon: Icon(Icons.star),
+              title: Text('Favorites'),
+            ),
+          ],
+        ),
       ),
     );
   }

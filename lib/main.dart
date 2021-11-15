@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_complete_guide/providers/ThemeProvider.dart';
+import 'package:flutter_complete_guide/providers/language_provider.dart';
 import 'package:flutter_complete_guide/providers/mealProvider.dart';
 import 'package:flutter_complete_guide/screens/ThemeScreen.dart';
 import 'package:provider/provider.dart';
@@ -18,6 +19,9 @@ void main() {
       ),
       ChangeNotifierProvider<ThemeProvider>(
         create: (context) => ThemeProvider(),
+      ),
+      ChangeNotifierProvider<LanguageProvider>(
+        create: (context) => LanguageProvider(),
       ),
     ],
       child: MyApp(),)
